@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { hashPin } from "@/app/lib/auth";
-import { Prisma } from "@prisma/client";
 import { auth } from "@/app/lib/auth-server";
+import type { UserRole } from "@prisma/client";
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -42,9 +42,14 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       }
     }
 
-    const updateData: Prisma.UserUpdateInput = {};
+    const updateData: {
+      name?: string;
+      role?: UserRole;
+      email?: string | null;
+      pin?: string;
+    } = {};
     if (name) updateData.name = name;
-    if (role) updateData.role = role;
+    if (role) updateData.role = role as UserRole;
     if (email !== undefined) updateData.email = email;
     if (pin) {
         updateData.pin = await hashPin(pin);

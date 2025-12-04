@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { auth } from "@/app/lib/auth-server";
-import type { Prisma } from "@prisma/client";
 
 export async function GET(request: Request) {
   const { user } = await auth();
@@ -38,9 +37,8 @@ export async function GET(request: Request) {
       },
     });
 
-    type OrderWithItems = Prisma.OrderGetPayload<{
-      include: { items: true };
-    }>;
+    // Infer type from the query result
+    type OrderWithItems = (typeof orders)[number];
 
     const totalSales = orders.reduce((sum: number, order: OrderWithItems) => sum + parseFloat(order.total.toString()), 0);
     const orderCount = orders.length;

@@ -81,7 +81,6 @@ export async function PATCH(request: Request, { params }: Params) {
   const normalizedPhone = phone ? phone.replace(/\D/g, "") : undefined;
 
   // Find the default address ID if addresses are provided
-  let defaultAddressId: string | null = null;
   if (addresses && addresses.length > 0) {
     const defaultAddr = addresses.find((addr) => addr.isDefault);
     if (defaultAddr) {

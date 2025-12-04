@@ -320,6 +320,7 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDetachModifierGroup = async (groupId: string) => {
     if (!editingItem) return;
     

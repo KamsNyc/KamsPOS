@@ -17,7 +17,7 @@ export async function PATCH(
     const { name, prices } = body;
 
     // Update modifier name
-    const modifier = await prisma.modifier.update({
+    await prisma.modifier.update({
       where: { id },
       data: {
         name,
