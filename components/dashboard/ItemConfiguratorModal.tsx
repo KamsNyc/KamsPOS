@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -53,7 +54,6 @@ export default function ItemConfiguratorModal({
   const [calculatedPrice, setCalculatedPrice] = useState(parseFloat(item.basePrice));
 
   // Reset state when modal opens - intentional initialization
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (isOpen) {
       setSelectedModifiers({});
@@ -62,7 +62,6 @@ export default function ItemConfiguratorModal({
   }, [isOpen, item.id, item.basePrice]);
 
   // Calculate total price - intentional derived state calculation
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     let total = parseFloat(item.basePrice);
 

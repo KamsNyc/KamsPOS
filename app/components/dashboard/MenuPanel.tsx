@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useEmployee } from "@/app/context/AuthContext";
 import { Edit03, Plus, Trash01, Save01, XClose } from "@untitledui/icons";
 import OnScreenKeyboard from "@/components/dashboard/OnScreenKeyboard";
@@ -46,12 +46,12 @@ export function MenuPanel({ onAddItem }: MenuPanelProps) {
   const [keyboardValue, setKeyboardValue] = useState("");
   const [keyboardCallback, setKeyboardCallback] = useState<((val: string) => void) | null>(null);
 
-  const fetchMenu = async () => {
+  const fetchMenu = useCallback(async () => {
     try {
       const response = await fetch("/api/menu");
       const data = await response.json();
       setCategories(data);
-      
+
       // Select first category if none selected or selected one was deleted
       if (data.length > 0 && (!selectedCategory || !data.find((c: MenuCategory) => c.id === selectedCategory))) {
         setSelectedCategory(data[0].id);
@@ -63,11 +63,12 @@ export function MenuPanel({ onAddItem }: MenuPanelProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [selectedCategory]);
 
+  // Fetch menu data on mount
   useEffect(() => {
     fetchMenu();
-  }, []);
+  }, [fetchMenu]);
 
   const handleCategorySave = async () => {
     if (!editingCategory) return;

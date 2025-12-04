@@ -101,7 +101,7 @@ export default function DashboardPage() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [isConfiguratorOpen, setIsConfiguratorOpen] = useState(false);
   const [hasToppingsModifier, setHasToppingsModifier] = useState(false);
-  const [autoOpenItemId, setAutoOpenItemId] = useState<string | null>(null);
+  const [autoOpenItemId] = useState<string | null>(null);
   const [confirmationDialog, setConfirmationDialog] = useState<{
     isOpen: boolean;
     title: string;
@@ -143,7 +143,8 @@ export default function DashboardPage() {
       }
     };
     fetchCategories();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount - selectedCategoryId check is intentional
 
   // Fetch store data (with sessionStorage cache)
   useEffect(() => {

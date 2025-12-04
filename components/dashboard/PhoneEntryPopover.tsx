@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -23,7 +24,6 @@ export function PhoneEntryPopover({
   const popoverRef = useRef<HTMLDivElement>(null);
 
   // Reset state when popover opens - intentional initialization
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (isOpen) {
       setPhone("");

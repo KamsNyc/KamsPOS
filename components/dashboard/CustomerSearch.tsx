@@ -124,10 +124,9 @@ export function CustomerSearch({
       performSearch();
     }, 600);
     return () => clearTimeout(timeoutId);
-  }, [phone, performSearch, shouldSearch]);
+  }, [phone, performSearch, shouldSearch, onCustomerSelect]);
 
   // Reset selected customer when phone changes significantly
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const digitsOnly = phone.replace(/\D/g, "");
     if (digitsOnly.length < 4) {
@@ -135,7 +134,7 @@ export function CustomerSearch({
       onCustomerSelect(null);
       setIsSearching(false);
     }
-  }, [phone]); // onCustomerSelect intentionally omitted - only react to phone changes
+  }, [phone, onCustomerSelect]);
 
   return (
     <div className="space-y-3">

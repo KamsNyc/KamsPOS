@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import type { OrderType, OrderStatus } from "@prisma/client";
 
@@ -34,11 +34,7 @@ export default function OrdersPage() {
 
   const pageSize = 20;
 
-  useEffect(() => {
-    fetchOrders();
-  }, [page, filters]);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams({
@@ -59,7 +55,12 @@ export default function OrdersPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [page, pageSize, filters]);
+
+  // Fetch orders when page or filters change
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
