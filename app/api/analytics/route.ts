@@ -58,8 +58,8 @@ export async function GET(request: Request) {
 
     // 4. Top Items
     const itemCounts = {} as Record<string, number>;
-    orders.forEach(order => {
-        order.items.forEach(item => {
+    orders.forEach((order: OrderWithItems) => {
+        order.items.forEach((item: { nameSnapshot: string; quantity: number }) => {
             itemCounts[item.nameSnapshot] = (itemCounts[item.nameSnapshot] || 0) + item.quantity;
         });
     });
