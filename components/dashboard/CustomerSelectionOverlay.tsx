@@ -50,7 +50,7 @@ export function CustomerSelectionOverlay({
               </div>
               <div className="flex-1 text-left">
                 <div className="text-2xl font-bold text-white mb-2">Delivery</div>
-                <div className="text-sm text-neutral-300">We'll deliver to customer's address</div>
+                <div className="text-sm text-neutral-300">We&apos;ll deliver to customer&apos;s address</div>
               </div>
               <div className="text-emerald-400 text-2xl shrink-0">→</div>
             </button>

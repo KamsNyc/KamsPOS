@@ -9,7 +9,7 @@ interface Employee {
   id: string;
   name: string;
   role: "ADMIN" | "CASHIER";
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 interface AuthContextType {
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, [router, supabase]);
 
-  const loginStore = async (email: string, pass: string) => {
+  const loginStore = async (_email: string, _pass: string) => {
     // This is handled by Supabase Auth UI or custom form calling supabase.auth.signInWithPassword
     // We'll expose the state, but the actual login logic often happens in the login form component.
     // However, we can wrap it here if desired.
@@ -110,7 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await fetch("/api/auth/logout-employee", {
         method: "POST",
       });
-    } catch (error) {
+    } catch {
       // Ignore - store logout will invalidate everything anyway
     }
     

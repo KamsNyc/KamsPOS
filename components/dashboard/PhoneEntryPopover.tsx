@@ -22,6 +22,8 @@ export function PhoneEntryPopover({
   const [showKeypad, setShowKeypad] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
 
+  // Reset state when popover opens - intentional initialization
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (isOpen) {
       setPhone("");

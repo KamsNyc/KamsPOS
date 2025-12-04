@@ -35,11 +35,9 @@ interface OrderSummaryProps {
 
 export function OrderSummary({
   items,
-  orderType,
   tax,
   onUpdateQuantity,
   onRemoveItem,
-  onUpdateSpecialInstructions,
   onCompleteOrder,
   isCompleting,
 }: OrderSummaryProps) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Edit03, Plus, Trash01, Save01, XClose } from "@untitledui/icons";
+import { Edit03, Plus, Trash01, XClose } from "@untitledui/icons";
 import OnScreenKeyboard from "@/components/dashboard/OnScreenKeyboard";
 import { ConfirmationDialog } from "@/components/dashboard/ConfirmationDialog";
 

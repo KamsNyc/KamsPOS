@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useEmployee } from "@/app/context/AuthContext";
-import { ArrowLeft, ShoppingBag03 } from "@untitledui/icons";
+import { ArrowLeft } from "@untitledui/icons";
 import Link from "next/link";
 import { MenuManagement } from "@/components/dashboard/MenuManagement";
 

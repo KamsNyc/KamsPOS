@@ -26,7 +26,7 @@ interface CustomerSearchProps {
   onCustomerSelect: (customer: Customer | null) => void;
   required: boolean;
   onKeypadToggle?: (isOpen: boolean) => void;
-  onSearchTrigger?: () => void;
+  onSearchTrigger?: () => void; // kept in interface for API compatibility
   onCreateCustomer?: (phone: string) => void;
   defaultKeypadOpen?: boolean;
 }
@@ -37,7 +37,6 @@ export function CustomerSearch({
   onCustomerSelect,
   required,
   onKeypadToggle,
-  onSearchTrigger,
   onCreateCustomer,
   defaultKeypadOpen = false,
 }: CustomerSearchProps) {
@@ -128,6 +127,7 @@ export function CustomerSearch({
   }, [phone, performSearch, shouldSearch]);
 
   // Reset selected customer when phone changes significantly
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const digitsOnly = phone.replace(/\D/g, "");
     if (digitsOnly.length < 4) {
@@ -135,7 +135,7 @@ export function CustomerSearch({
       onCustomerSelect(null);
       setIsSearching(false);
     }
-  }, [phone, onCustomerSelect]);
+  }, [phone]); // onCustomerSelect intentionally omitted - only react to phone changes
 
   return (
     <div className="space-y-3">

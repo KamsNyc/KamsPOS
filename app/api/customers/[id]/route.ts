@@ -82,7 +82,7 @@ export async function PATCH(request: Request, { params }: Params) {
 
   // Find the default address ID if addresses are provided
   if (addresses && addresses.length > 0) {
-    const defaultAddr = addresses.find((addr) => addr.isDefault);
+    const defaultAddr = addresses.find((addr: { id?: string; isDefault?: boolean }) => addr.isDefault);
     if (defaultAddr) {
       // If it's a new address (no id), we'll need to find it after creation
       // For now, we'll handle it after the update
@@ -100,7 +100,7 @@ export async function PATCH(request: Request, { params }: Params) {
         ? {
             addresses: {
               deleteMany: {},
-              create: addresses.map((addr) => ({
+              create: addresses.map((addr: { label: string; street: string; city: string; state: string; zip: string; extraDirections?: string; isDefault?: boolean }) => ({
                 label: addr.label,
                 street: addr.street,
                 city: addr.city,
@@ -121,7 +121,7 @@ export async function PATCH(request: Request, { params }: Params) {
 
   // Update defaultAddressId if needed
   if (addresses && addresses.length > 0) {
-    const defaultAddr = updated.addresses.find((addr) => addr.isDefault);
+    const defaultAddr = updated.addresses.find((addr: { id: string; isDefault: boolean }) => addr.isDefault);
     if (defaultAddr) {
       await prisma.customer.update({
         where: { id },

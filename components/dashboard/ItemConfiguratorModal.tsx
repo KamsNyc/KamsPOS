@@ -52,17 +52,20 @@ export default function ItemConfiguratorModal({
   const [selectedModifiers, setSelectedModifiers] = useState<Record<string, string[]>>({});
   const [calculatedPrice, setCalculatedPrice] = useState(parseFloat(item.basePrice));
 
+  // Reset state when modal opens - intentional initialization
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (isOpen) {
       setSelectedModifiers({});
       setCalculatedPrice(parseFloat(item.basePrice));
     }
-  }, [isOpen, item]);
+  }, [isOpen, item.id, item.basePrice]);
 
-  // Calculate total price
+  // Calculate total price - intentional derived state calculation
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     let total = parseFloat(item.basePrice);
-    
+
     item.modifierGroups?.forEach(({ modifierGroup }) => {
       const selected = selectedModifiers[modifierGroup.id] || [];
       selected.forEach((modifierId) => {
@@ -72,7 +75,7 @@ export default function ItemConfiguratorModal({
           const priceEntry = modifier.prices.find(
             (p) => p.sizeLabel === (item.size || "Default")
           ) || modifier.prices.find((p) => p.sizeLabel === "Default") || modifier.prices[0];
-          
+
           if (priceEntry) {
             total += parseFloat(priceEntry.price);
           }
@@ -151,7 +154,6 @@ export default function ItemConfiguratorModal({
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
           {item.modifierGroups?.map(({ modifierGroup }) => {
             const selected = selectedModifiers[modifierGroup.id] || [];
-            const isRadio = modifierGroup.maxSelect === 1;
             const isRequired = modifierGroup.minSelect > 0;
 
             return (

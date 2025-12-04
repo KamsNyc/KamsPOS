@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useEmployee } from "@/app/context/AuthContext";
 import { Edit03, Plus, Trash01, Save01, XClose, Settings02, Link01 } from "@untitledui/icons";
 import OnScreenKeyboard from "@/components/dashboard/OnScreenKeyboard";
-import ItemConfiguratorDrawer from "@/components/dashboard/ItemConfiguratorDrawer";
 import ItemConfiguratorInline from "@/components/dashboard/ItemConfiguratorInline";
 import ModifierManagementModal from "@/components/dashboard/ModifierManagementModal";
 
@@ -78,8 +77,6 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
   const [isNewItem, setIsNewItem] = useState(false);
-  const [configuratorItem, setConfiguratorItem] = useState<MenuItem | null>(null);
-  const [isConfiguratorOpen, setIsConfiguratorOpen] = useState(false);
   const [inlineConfiguratorItem, setInlineConfiguratorItem] = useState<MenuItem | null>(null);
 
   // Notify parent when configurator state changes
@@ -758,24 +755,6 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
         />
       )}
 
-      {/* Item Configurator Drawer */}
-      {configuratorItem && (
-        <ItemConfiguratorDrawer
-          item={configuratorItem}
-          isOpen={isConfiguratorOpen}
-          onClose={() => {
-            setIsConfiguratorOpen(false);
-            setConfiguratorItem(null);
-          }}
-          onAddToOrder={(item, selectedModifiers) => {
-            if (onAddItem && configuratorItem) {
-                // Ensure taxRate is included from the original item
-                const itemWithTaxRate = { ...item, taxRate: configuratorItem.taxRate || "0" };
-                onAddItem(itemWithTaxRate, selectedModifiers);
-            }
-          }}
-        />
-      )}
     </div>
   );
 }

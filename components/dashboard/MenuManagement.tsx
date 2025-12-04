@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useEmployee } from "@/app/context/AuthContext";
 import { Edit03, Plus, Trash01, Save01, XClose, Settings02, DotsGrid, Link01 } from "@untitledui/icons";
@@ -77,7 +77,7 @@ interface ModifierGroup {
 type ViewMode = "categories" | "modifiers";
 
 export function MenuManagement() {
-  const { user: employee } = useEmployee();
+  useEmployee();
   const [viewMode, setViewMode] = useState<ViewMode>("categories");
   const [categories, setCategories] = useState<MenuCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -172,7 +172,7 @@ export function MenuManagement() {
     setActiveInput(fieldName);
   };
 
-  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [, setIsUploadingImage] = useState(false);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -203,34 +203,6 @@ export function MenuManagement() {
     }
   };
 
-  const handleCategoryImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setIsUploadingImage(true);
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("folder", "categories");
-
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-      if (response.ok && data.url) {
-        setEditingCategory(prev => prev ? ({ ...prev, imageUrl: data.url }) : null);
-      } else {
-        alert(data.error || "Failed to upload image");
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      alert("Failed to upload image");
-    } finally {
-      setIsUploadingImage(false);
-    }
-  };
 
   // Category handlers
   const handleCategorySave = async () => {
@@ -302,6 +274,7 @@ export function MenuManagement() {
     } else if (!isItemModalOpen) {
       setOriginalItem(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isItemModalOpen, editingItem?.id]); // Re-capture when modal opens/closes or item ID changes
 
   // Check if item has changes
@@ -1007,7 +980,7 @@ export function MenuManagement() {
               </button>
             </div>
             <div className="flex items-center justify-center h-full text-neutral-500">
-              Click "Manage Modifiers" to open the modifier management interface
+              Click &quot;Manage Modifiers&quot; to open the modifier management interface
             </div>
           </div>
         )}

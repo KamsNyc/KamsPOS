@@ -44,11 +44,6 @@ interface Order {
   items: OrderItem[];
 }
 
-const PIZZERIA_NAME = "Kams Pizza";
-const PIZZERIA_ADDRESS = "123 Main Street";
-const PIZZERIA_CITY = "Your City, ST 12345";
-const PIZZERIA_PHONE = "(555) 123-4567";
-
 export default function ReceiptPage() {
   const params = useParams();
   const orderId = params.id as string;
