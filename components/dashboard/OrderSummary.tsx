@@ -49,7 +49,7 @@ export function OrderSummary({
     null,
   );
 
-  const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
+  const subtotal = items.reduce((sum: number, item: OrderItem) => sum + item.lineTotal, 0);
   const deliveryFee = 0;
   const total = subtotal + tax + deliveryFee;
 

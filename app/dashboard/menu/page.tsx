@@ -8,16 +8,16 @@ import Link from "next/link";
 import { MenuManagement } from "@/components/dashboard/MenuManagement";
 
 export default function MenuManagementPage() {
-  const { user: employee, loading } = useEmployee();
+  const { user: employee } = useEmployee();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && (!employee || employee.role !== "ADMIN")) {
+    if (!employee || employee.role !== "ADMIN") {
       router.push("/dashboard");
     }
-  }, [employee, loading, router]);
+  }, [employee, router]);
 
-  if (loading || !employee || employee.role !== "ADMIN") return null;
+  if (!employee || employee.role !== "ADMIN") return null;
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white p-6 flex flex-col">

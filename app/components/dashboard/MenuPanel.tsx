@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useEmployee } from "@/app/context/AuthContext";
 import { Edit03, Plus, Trash01, Save01, XClose } from "@untitledui/icons";
-import OnScreenKeyboard from "@/app/components/dashboard/OnScreenKeyboard";
+import OnScreenKeyboard from "@/components/dashboard/OnScreenKeyboard";
 
 interface MenuItem {
   id: string;
@@ -417,7 +417,7 @@ export function MenuPanel({ onAddItem }: MenuPanelProps) {
       {activeInput && (
         <OnScreenKeyboard
             value={keyboardValue}
-            onChange={(val) => {
+            onChange={(val: string) => {
                 setKeyboardValue(val);
                 if (keyboardCallback) keyboardCallback(val);
             }}

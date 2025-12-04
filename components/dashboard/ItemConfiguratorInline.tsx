@@ -33,6 +33,7 @@ interface MenuItem {
   name: string;
   description?: string;
   basePrice: string;
+  taxRate?: string;
   categoryId?: string;
   isAvailable?: boolean;
   size?: string | null;

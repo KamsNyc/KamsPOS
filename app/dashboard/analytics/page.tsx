@@ -17,17 +17,17 @@ interface AnalyticsData {
 }
 
 export default function AnalyticsPage() {
-  const { user: employee, loading } = useEmployee();
+  const { user: employee } = useEmployee();
   const router = useRouter();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [range, setRange] = useState("today");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!loading && (!employee || employee.role !== "ADMIN")) {
+    if (!employee || employee.role !== "ADMIN") {
       router.push("/dashboard");
     }
-  }, [employee, loading, router]);
+  }, [employee, router]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,7 +49,7 @@ export default function AnalyticsPage() {
     }
   }, [range, employee]);
 
-  if (loading || !employee || employee.role !== "ADMIN") return null;
+  if (!employee || employee.role !== "ADMIN") return null;
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white p-6">

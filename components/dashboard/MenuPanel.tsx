@@ -474,8 +474,10 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
                 item={inlineConfiguratorItem}
                 onClose={() => setInlineConfiguratorItem(null)}
                 onAddToOrder={(item, selectedModifiers, quantity) => {
-                  if (onAddItem) {
-                    onAddItem(item, selectedModifiers, quantity);
+                  if (onAddItem && inlineConfiguratorItem) {
+                    // Ensure taxRate is included from the original item
+                    const itemWithTaxRate = { ...item, taxRate: inlineConfiguratorItem.taxRate || "0" };
+                    onAddItem(itemWithTaxRate, selectedModifiers, quantity);
                   }
                   setInlineConfiguratorItem(null);
                 }}
@@ -489,7 +491,7 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
           {isEditMode && selectedCategory && (
              <button
                 onClick={() => {
-                    setEditingItem({ id: "", name: "", description: "", basePrice: "", categoryId: selectedCategory, isAvailable: true });
+                    setEditingItem({ id: "", name: "", description: "", basePrice: "", taxRate: "0", categoryId: selectedCategory, isAvailable: true });
                     setIsNewItem(true);
                     setIsItemModalOpen(true);
                 }}
@@ -678,7 +680,7 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
                     <div>
                         <label className="text-xs font-bold text-neutral-500 uppercase block mb-1.5">Description</label>
                         <button 
-                            onClick={() => openKeyboard(editingItem.description, (val) => setEditingItem({...editingItem, description: val}), "Description")}
+                            onClick={() => openKeyboard(editingItem.description || "", (val) => setEditingItem({...editingItem, description: val}), "Description")}
                             className="w-full h-24 bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-left text-white hover:border-emerald-500/50 transition-colors flex items-start"
                         >
                             {editingItem.description || <span className="text-neutral-600 italic">Enter description...</span>}
@@ -767,8 +769,10 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
             setConfiguratorItem(null);
           }}
           onAddToOrder={(item, selectedModifiers) => {
-            if (onAddItem) {
-                onAddItem(item, selectedModifiers);
+            if (onAddItem && configuratorItem) {
+                // Ensure taxRate is included from the original item
+                const itemWithTaxRate = { ...item, taxRate: configuratorItem.taxRate || "0" };
+                onAddItem(itemWithTaxRate, selectedModifiers);
             }
           }}
         />

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { auth } from "@/app/lib/auth-server";
+import type { Order } from "@prisma/client";
 
 export async function GET(request: Request) {
   const { user } = await auth();
@@ -37,18 +38,18 @@ export async function GET(request: Request) {
       },
     });
 
-    const totalSales = orders.reduce((sum, order) => sum + parseFloat(order.total.toString()), 0);
+    const totalSales = orders.reduce((sum: number, order: Order & { items: any[] }) => sum + parseFloat(order.total.toString()), 0);
     const orderCount = orders.length;
     const averageOrderValue = orderCount > 0 ? totalSales / orderCount : 0;
 
     // 2. Payment Methods
-    const paymentMethods = orders.reduce((acc, order) => {
+    const paymentMethods = orders.reduce((acc: Record<string, number>, order: Order & { items: any[] }) => {
       acc[order.paymentMethod] = (acc[order.paymentMethod] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
     // 3. Order Types
-    const orderTypes = orders.reduce((acc, order) => {
+    const orderTypes = orders.reduce((acc: Record<string, number>, order: Order & { items: any[] }) => {
       acc[order.type] = (acc[order.type] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);

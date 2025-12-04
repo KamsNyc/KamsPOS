@@ -102,9 +102,9 @@ export async function POST(request: Request) {
     data: {
       fullName,
       phone: normalizedPhone,
-      email,
-      imageUrl,
-      notes,
+      email: email || undefined,
+      imageUrl: imageUrl || undefined,
+      notes: notes || undefined,
       addresses: address
         ? {
             create: {

@@ -32,6 +32,7 @@ interface Customer {
   fullName: string;
   phone: string;
   email?: string;
+  imageUrl?: string;
   notes?: string;
   defaultAddress?: Address;
   addresses?: Address[];

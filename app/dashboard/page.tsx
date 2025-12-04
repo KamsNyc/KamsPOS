@@ -456,9 +456,9 @@ export default function DashboardPage() {
     );
   };
 
-  const subtotal = orderItems.reduce((sum, item) => sum + item.lineTotal, 0);
+  const subtotal = orderItems.reduce((sum: number, item: OrderItem) => sum + item.lineTotal, 0);
   // Calculate tax per item
-  const tax = orderItems.reduce((sum, item) => sum + (item.lineTotal * (item.taxRate / 100)), 0);
+  const tax = orderItems.reduce((sum: number, item: OrderItem) => sum + (item.lineTotal * (item.taxRate / 100)), 0);
 
   const handleCompleteOrder = async (paymentMethod: PaymentMethod) => {
     if (!orderType) {
