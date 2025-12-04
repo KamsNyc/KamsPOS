@@ -1,0 +1,244 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Professional POS Dashboard Styles */
+.pos-card {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.pos-button-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+  transition: all 0.2s ease;
+}
+
+.pos-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.4);
+}
+
+.pos-button-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px 0 rgba(16, 185, 129, 0.3);
+}
+
+.pos-button-secondary {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.pos-button-secondary:hover {
+  background: linear-gradient(135deg, #333333 0%, #222222 100%);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.pos-input {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.pos-input:focus {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.pos-badge {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+.pos-divider {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  height: 1px;
+}
+
+/* Receipt Print Styles for 80mm Thermal Printers */
+.receipt-container {
+  max-width: 80mm;
+  margin: 0 auto;
+  padding: 10mm;
+  background: white;
+  color: black;
+}
+
+.receipt-content {
+  font-family: "Courier New", monospace;
+  font-size: 12pt;
+  line-height: 1.4;
+}
+
+.receipt-header {
+  text-align: center;
+  margin-bottom: 8mm;
+}
+
+.receipt-title {
+  font-size: 18pt;
+  font-weight: bold;
+  margin-bottom: 4mm;
+  text-transform: uppercase;
+}
+
+.receipt-address {
+  font-size: 10pt;
+  margin-bottom: 2mm;
+}
+
+.receipt-phone {
+  font-size: 10pt;
+  margin-top: 2mm;
+}
+
+.receipt-divider {
+  border-top: 1px dashed #000;
+  margin: 4mm 0;
+}
+
+.receipt-section {
+  margin-bottom: 4mm;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2mm;
+  font-size: 11pt;
+}
+
+.receipt-label {
+  font-weight: bold;
+  margin-bottom: 2mm;
+  font-size: 11pt;
+}
+
+.receipt-bold {
+  font-weight: bold;
+}
+
+.receipt-item {
+  margin-bottom: 4mm;
+}
+
+.receipt-item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1mm;
+}
+
+.receipt-item-note {
+  font-size: 9pt;
+  font-style: italic;
+  margin-top: 1mm;
+  color: #555;
+}
+
+.receipt-item-price {
+  font-size: 9pt;
+  color: #666;
+}
+
+.receipt-total {
+  margin-top: 2mm;
+  padding-top: 2mm;
+  border-top: 1px solid #000;
+  font-size: 13pt;
+}
+
+.receipt-address-text {
+  font-size: 10pt;
+  line-height: 1.5;
+  margin-top: 2mm;
+}
+
+.receipt-notes {
+  font-size: 10pt;
+  margin-top: 2mm;
+  font-style: italic;
+}
+
+.receipt-footer {
+  text-align: center;
+  margin-top: 6mm;
+}
+
+.receipt-thanks {
+  font-size: 12pt;
+  font-weight: bold;
+  margin-bottom: 2mm;
+}
+
+.receipt-footer-text {
+  font-size: 9pt;
+  color: #666;
+}
+
+.print-controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+}
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .receipt-container {
+    max-width: 80mm;
+    width: 80mm;
+    margin: 0;
+    padding: 5mm;
+    box-shadow: none;
+  }
+
+  .receipt-content {
+    font-size: 11pt;
+  }
+
+  .receipt-title {
+    font-size: 16pt;
+  }
+
+  @page {
+    size: 80mm auto;
+    margin: 0;
+  }
+}
