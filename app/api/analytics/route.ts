@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import { auth } from "@/app/lib/auth-server";
-import type { Order } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 
 export async function GET(request: Request) {
   const { user } = await auth();
@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const range = searchParams.get("range") || "today";
 
   const now = new Date();
-  let startDate = new Date();
+  const startDate = new Date();
   startDate.setHours(0, 0, 0, 0);
 
   if (range === "week") {
@@ -38,18 +38,22 @@ export async function GET(request: Request) {
       },
     });
 
-    const totalSales = orders.reduce((sum: number, order: Order & { items: any[] }) => sum + parseFloat(order.total.toString()), 0);
+    type OrderWithItems = Prisma.OrderGetPayload<{
+      include: { items: true };
+    }>;
+
+    const totalSales = orders.reduce((sum: number, order: OrderWithItems) => sum + parseFloat(order.total.toString()), 0);
     const orderCount = orders.length;
     const averageOrderValue = orderCount > 0 ? totalSales / orderCount : 0;
 
     // 2. Payment Methods
-    const paymentMethods = orders.reduce((acc: Record<string, number>, order: Order & { items: any[] }) => {
+    const paymentMethods = orders.reduce((acc: Record<string, number>, order: OrderWithItems) => {
       acc[order.paymentMethod] = (acc[order.paymentMethod] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
     // 3. Order Types
-    const orderTypes = orders.reduce((acc: Record<string, number>, order: Order & { items: any[] }) => {
+    const orderTypes = orders.reduce((acc: Record<string, number>, order: OrderWithItems) => {
       acc[order.type] = (acc[order.type] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);

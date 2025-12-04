@@ -112,16 +112,16 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
   const fetchMenu = async () => {
     try {
       const response = await fetch("/api/menu");
-      const data = await response.json();
+      const data = await response.json() as MenuCategory[];
       // Transform the data to include modifier groups properly
       const transformedData = data.map((cat: MenuCategory) => ({
         ...cat,
-        items: cat.items.map((item: any) => ({
+        items: cat.items.map((item: Omit<MenuItem, 'taxRate'> & { taxRate?: string | number | null }) => ({
           ...item,
           taxRate: item.taxRate?.toString() || "0",
           imageUrl: item.imageUrl || undefined,
           modifierGroups: item.modifierGroups || [],
-        })),
+        })) as MenuItem[],
       }));
       setCategories(transformedData);
       
@@ -293,17 +293,15 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
         // Update local editingItem state to reflect change immediately (optional, but good)
         // For now fetchMenu refreshes categories, need to re-find item or just close modal?
         // Better to refresh editingItem from the updated categories list
-        const updatedCategories = await (await fetch("/api/menu")).json();
-        // ... logic to update editingItem ... or just rely on fetchMenu and finding it
         // Actually, fetchMenu updates `categories`. We need to update `editingItem` from `categories`.
         // Let's simpler: just re-fetch menu and update editing item from it.
-        const updatedData = await (await fetch("/api/menu")).json();
-        const transformedData = updatedData.map((cat: any) => ({
+        const updatedData = await (await fetch("/api/menu")).json() as MenuCategory[];
+        const transformedData = updatedData.map((cat: MenuCategory) => ({
             ...cat,
-            items: cat.items.map((item: any) => ({
+            items: cat.items.map((item: Omit<MenuItem, 'modifierGroups'> & { modifierGroups?: unknown[] }) => ({
               ...item,
               modifierGroups: item.modifierGroups || [],
-            })),
+            })) as MenuItem[],
         }));
         setCategories(transformedData);
         
@@ -332,13 +330,13 @@ export function MenuPanel({ onAddItem, scrollToCategory, mode = "pos", selectedC
       
       if (res.ok) {
         // Same refresh logic
-        const updatedData = await (await fetch("/api/menu")).json();
-        const transformedData = updatedData.map((cat: any) => ({
+        const updatedData = await (await fetch("/api/menu")).json() as MenuCategory[];
+        const transformedData = updatedData.map((cat: MenuCategory) => ({
             ...cat,
-            items: cat.items.map((item: any) => ({
+            items: cat.items.map((item: Omit<MenuItem, 'modifierGroups'> & { modifierGroups?: unknown[] }) => ({
               ...item,
               modifierGroups: item.modifierGroups || [],
-            })),
+            })) as MenuItem[],
         }));
         setCategories(transformedData);
         
